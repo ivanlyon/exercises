@@ -1,0 +1,13 @@
+12
+ADD_POSITIVE("great")
+ADD_POSITIVE('super')
+ADD_POSITIVE("fun")
+ADD_POSITIVE("entertaining")
+ADD_POSITIVE("easy")
+ADD_NEGATIVE("boring")
+ADD_NEGATIVE("difficult")
+ADD_NEGATIVE("ugly")
+ADD_NEGATIVE("bad")
+RUN('Python is great')
+RUN('Python is difficult')
+RUN('Perl is great')

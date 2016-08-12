@@ -1,0 +1,80 @@
+<html>
+    <!-- This template for use by dirsite_server.py -->
+    <head>
+        <title>DIRSITE - readme</title>
+        <link rel="stylesheet" href="dirsite.css">
+    </head>
+    <body class="reader_friendly">
+        <center><h1>DIRSITE</h1></center>
+        <p>Development aid intended to provide convenience by offering CLI input and output as browser-viewable web pages.  When installed above a python package, prefab command lines are presented in tables.  Other table contents may be assigned in a configuration file.</p>
+        <hr>
+        <center><h1>Installation</h1></center>
+        <p>DIRSITE files may be copied into any directory to be used for executing arbitrary CLI instructions.</p>
+        <ul>
+            <li>Commands are executed with the privileges of the server login.</li>
+            <li>URL may not require encoding.  Example: <a href="{readme_cgi}">{readme_cgi}</a></li>
+            <li>URL may require encoding.  Example for Windows: <a href="{dir_readme_cgi}">{dir_readme_cgi}</a>.  The <code>&&</code> operator may not be parsed when used in a URL.  Improved results may be seen by using the encoded URL, <a href="{encoded_dir_readme_cgi}">{encoded_dir_readme_cgi}</a></li>
+        </ul>
+        <center><h4><u>Python Package Assistant</u></h4></center>
+        <ul>
+            <li>
+                Copy DIRSITE files to the package directory.  At a minimum, the directory tree should appear as follows (DIRSITE files are identifiable by name prefix):
+                <pre>
+                - Package
+                    |    <div style="color:red;display:inline;">dirsite.py</div>
+                    +--- <div style="color:red;display:inline;">dirsite_files</div>
+                    |        <div style="color:red;display:inline;">__init__.py</div>
+                    |        <div style="color:red;display:inline;">command_line.py</div>
+                    |        <div style="color:red;display:inline;">configuration.ini</div>
+                    |        <div style="color:red;display:inline;">readme.py</div>
+                    |        <div style="color:red;display:inline;">views.ini</div>
+                    |        <div style="color:red;display:inline;">views.py</div>
+                    |        <div style="color:red;display:inline;">dirsite.css</div>
+                    |        <div style="color:red;display:inline;">template_cl.html</div>
+                    |        <div style="color:red;display:inline;">template_views.html</div>
+                    |        <div style="color:red;display:inline;">template_readme.html</div>
+                    +--- module
+                    +--- sample_input (OPTIONAL)
+                    +--- test (OPTIONAL)
+                </pre>
+            </li>
+        </ul>
+        When configured, test by going to <a href="{command_line}">{command_line}</a>.
+
+        <hr>
+        <center><h3>DIRSITE Configuration File <code>dirsite_files/dirsite.ini</code></h3></center>
+        <div style="color:#00F;">{dirsite_ini}</div>
+        Some configuration changes to consider:
+        <ul>
+            <li>To see the interface with buttons rather than links, change <code>navigate_by_post</code> to True.  When True, custom URLs can no longer be typed into the URL line.</li>
+            <li>To change the dirsite_cl.py refresh rate to once every 5 minutes, change <code>reload_time</code> to 300 (seconds).  When <code>navigate_by_post</code> is <b>True</b>, reload is disabled to prevent the loss of persistent page view in the browser.</li>
+            <li>At server start, automatically load a view page by changing <code>first_page</code> value to <b>{command_line}</b></li>
+        </ul>
+        <br><br>
+
+        <hr>
+        <center><h3>DIRSITE Views Configuration File <code>dirsite_files/views.ini</code></h3></center>
+        <div style="color:#00F;">{views_ini}</div>
+        Some configuration changes to consider:
+        <ul>
+            <li>To change the view shown when the command line is entered, change the <code>[template] selection</code> assignment.</li>
+            <li>To add a directory wide command... (Note: <i>&lt;n&gt;</i> indicates a number denoting order of row appearance, starting from 1.)
+                <ul>
+                    <li>'dir_header_<i>&lt;n&gt;</i>' for the table header of the command.</li>
+                    <li>'dir_content_<i>&lt;n&gt;</i>' for the command as it appears on command line.</li>
+                    <li>If necessary, the following variables are available at runtime: <code>dirtest</code>.</li>
+                </ul>
+            </li>
+            <li>To add a file specific command... (Note: <i>&lt;n&gt;</i> indicates a number denoting order of column appearance, starting from 1.)
+                <ul>
+                    <li>'file_header_<i>&lt;n&gt;</i>' for the table header of the command.</li>
+                    <li>'file_content_<i>&lt;n&gt;</i>' for the command as it appears on command line.</li>
+                    <li>'file_dependency_<i>&lt;n&gt;</i>' required by command as it appears on command line.</li>
+                    <li>If necessary, the following variables are available at runtime: <code>dirtest</code>.</li>
+                </ul>
+            </li>
+        </ul>
+        <br><br>
+        <div class="warning"><span class="warning_span"><b>Do not edit this HTML file.</b>  It is regenerated every time server is started.</span></div>
+    </body>
+</html>

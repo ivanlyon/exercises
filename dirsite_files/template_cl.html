@@ -1,0 +1,54 @@
+<html>
+    <!-- Note: template braces are doubled where literal -->
+    <head>
+        <title>{window_title}</title>
+        {meta_refresh}
+        {css}
+    </head>
+
+    <body>
+        Information Age: <div id="information_age" style="display:inline-block">00:00:00</div>
+        <br>
+        <br>
+        <table style="margin-left:10px">
+            <tr>
+                <th colspan="100%">{date_time}</th>
+            </tr>
+            <tr>
+                <th>User</th>
+                <td class="greentd">{user_login}</td>
+            </tr>
+            <tr>
+                <th>Platform</th>
+                <td class="greentd">{user_platform}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td class="greentd">{cwd}</td>
+            </tr>
+            {output}
+        </table>
+
+        <script type="text/javascript">
+            Number.prototype.toHHMMSS = function () {{
+                var ss = Math.floor(this);
+                var hh = Math.floor(ss / 3600);
+                ss -= hh * 3600;
+                var mm = Math.floor(ss / 60);
+                ss -= mm * 60;
+                if (hh < 10) {{ hh = "0" + hh; }}
+                if (mm < 10) {{ mm = "0" + mm; }}
+                if (ss < 10) {{ ss = "0" + ss; }}
+                return hh + ":" + mm + ":" + ss;
+            }}
+
+            var myVar = setInterval(myTimer, 1000);
+            var firstTime = Math.floor(new Date().getTime() * .001);
+            function myTimer() {{
+                var thisTime = Math.floor(new Date().getTime() * .001);
+                document.getElementById("information_age").innerHTML =
+                    (thisTime - firstTime).toHHMMSS();
+            }}
+        </script>
+    </body>
+</html>

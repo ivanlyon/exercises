@@ -1,0 +1,6 @@
+5
+add_state('A')
+add_state('B')
+set_start('A')
+set_end('B')
+print_state_machine()

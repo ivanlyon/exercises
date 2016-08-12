@@ -1,0 +1,47 @@
+<html>
+    <!-- Note: template braces are doubled where literal -->
+    <head>
+        <title>{basename}</title>
+        {meta_refresh}
+        {css}
+    </head>
+
+    <body class="reader_friendly">
+        <h2><center>DIRSITE</center></h2>
+        <form method="post" id="commandForm">
+            {directory_tables}
+        </form>
+
+        <div style="background-color:#eee">{information_section}</div>
+
+        <!--- reference: http://ctrlq.org/code/19233-submit-forms-with-javascript -->
+        <script type="text/javascript">
+            function wrapper() {{
+                var theLine = document.getElementById('commandLine').value;
+                commandSend({{'cl': theLine}})
+            }}
+            function commandSend(params) {{
+                var form = document.createElement("form");
+                form.setAttribute("method", "post");
+                form.setAttribute("action", "http://localhost:''' + PORT + '''/ficl_cl.py");
+                form._submit_function_ = form.submit;
+                for(var key in params) {{
+                    if(params.hasOwnProperty(key)) {{
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", key);
+                        hiddenField.setAttribute("value", params[key]);
+                        form.appendChild(hiddenField);
+                    }}
+                }}
+                document.body.appendChild(form);
+                form._submit_function_();
+            }}
+            function urlEncodeButton() {{
+                var text = document.getElementById("inputString").value;
+                var encoded = encodeURIComponent(text)
+                document.getElementById("encodedString").innerHTML = encoded;
+            }}
+        </script>
+    </body>
+</html>
