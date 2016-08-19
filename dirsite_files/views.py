@@ -65,7 +65,6 @@ for root, dirs, files in os.walk('.'):
         if igdir in dirs:
             ignore_dir = True
             dirs.remove(igdir)
-            break
     if not ignore_dir:
         for f in files:
             ignore_file = f in FILES_BANNED

@@ -11,10 +11,11 @@ Points of interest
 
 * Exercises DIRSITE to see what a development environment can look like.
 * unittest cases for applicable modules
-* requires a symlink from test to package for coverage links to work
+* requires a symlink from test to the tested file's directory for coverage links to work
 
 Screenshots
 -----------
 
 .. image:: dirsite_table.png
+clicking the coverage link for knapsack delivers the user to a results page:
 .. image:: knapsack_coverage.png
