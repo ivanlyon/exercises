@@ -1,5 +1,5 @@
 import unittest
-from problems import k_catalan_numbers
+from problems import k_bijele
 
 ###############################################################################
 
