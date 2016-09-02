@@ -16,6 +16,6 @@ Points of interest
 Screenshots
 -----------
 
-.. image:: dirsite_table.png
+.. image:: docs/dirsite_table.png
 clicking the coverage link for knapsack delivers the user to a results page:
-.. image:: knapsack_coverage.png
+.. image:: docs/knapsack_coverage.png

@@ -210,7 +210,7 @@ def files_html(dir_name):
                                            dirtest=TEST_DIRECTORY).strip()
 
             if dependency != '' and not os.path.isfile(dependency):
-                result += '<td class="missing"><b>MISSING<b></td>'
+                result += '<td class="missing"><b>Unmet Dependency<b></td>'
             else:
                 key = 'file_content_' + str(column)
                 command_html = str(VIEWS_CFG.get(TEMPLATE_SELECTION, key))
