@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 '''
 DIRSITE CGI server script.
 '''
@@ -72,7 +74,8 @@ def start(port_number):
         webbrowser.open('file://' + os.path.realpath(FIRST_PAGE))
     else:
         # Delayed browse of page served by this script
-        webcommand = 'sleep 1 && python -m webbrowser "http://localhost:'
+#        webcommand = 'sleep 1 && python -m webbrowser "http://localhost:'
+        webcommand = 'sleep 1 && python3 -m webbrowser "http://localhost:'
         webcommand += str(port_number) + '/' + FIRST_PAGE + '"'
         proc = subprocess.Popen(webcommand, shell=True)
         print('Delayed browse command pid =', str(proc.pid))

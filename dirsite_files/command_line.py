@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 '''
 DIRSITE Command Line handler.
 '''
@@ -98,7 +100,7 @@ if CLI_INPUT:
         platform.version())
 
     SCRIPT = parse.unquote(CLI_INPUT)
-    COMMANDS = [c.split() for c in SCRIPT.split('&&')]
+    COMMANDS = [c for c in SCRIPT.split('&&')]
 
     for c in COMMANDS:
         if '-m' in c and invoked_module != 'unittest':  # unittest trumps all
@@ -119,7 +121,7 @@ if CLI_INPUT:
             line = line.replace('\r', ' ')  # Is there another way?
             encoded.append(line)
         results = encoded
-        legends.append(' '.join(c))
+        legends.append(c)
         # TODO: Stop looping after error is reported from command execution
 
     with open('dirsite_files/template_cl.html', 'rt') as f:

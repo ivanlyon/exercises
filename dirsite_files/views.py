@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 '''
 Handles empty command lines sent to dirsite.  Generally serves as a means of
 viewing the full view of command lines generated in accordance with the
@@ -179,7 +181,7 @@ def files_html(dir_name):
         result += '<tr>'
         filebase = PurePath(filename).stem
         filepath = os.path.join(dir_name, filename)
-        testpath = os.path.join(TEST_DIRECTORY, filename)
+        testpath = os.path.join(TEST_DIRECTORY, 'test_' + filename)
         sample_path = os.path.join(SAMPLE_DIRECTORY, filebase + '.txt')
 
         FILES_IN_PLAY.remove(filepath)

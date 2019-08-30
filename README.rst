@@ -11,7 +11,7 @@ Points of interest
 
 * Exercises DIRSITE to see what a development environment can look like.
 * unittest cases for applicable modules
-* requires a symlink from test to the tested file's directory for coverage links to work
+* requires a symlink from test to the tested file's directory
 
 Screenshots
 -----------

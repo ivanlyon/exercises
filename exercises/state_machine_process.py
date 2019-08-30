@@ -46,7 +46,7 @@ Output:
   +------------------------------------------------------------------+
 '''
 
-import state_machine
+from exercises import state_machine
 
 POSITIVE_ADJECTIVES = []
 NEGATIVE_ADJECTIVES = []
@@ -148,7 +148,7 @@ def process_sentiment(text):
 
 ###############################################################################
 
-fsm = state_machine.state_machine.StateMachine()
+fsm = state_machine.StateMachine()
 fsm.add_state(START_STATE, start_transitions)
 fsm.add_state(PYTHON_STATE, python_state_transitions)
 fsm.add_state(IS_STATE, is_state_transitions)

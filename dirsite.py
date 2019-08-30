@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 '''
 DIRSITE top level CGI script.  Forks to create server if not already running.
 Current implementation likely does not scale beyond 1 directory.
