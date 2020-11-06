@@ -4,6 +4,10 @@
 Absolute value of difference between 2 integers.
 '''
 
+def difference(a, b):
+    '''Absolute difference between 2 integers'''
+    return abs(a - b)
+
 if __name__ == '__main__':
     import sys
 
@@ -21,4 +25,4 @@ if __name__ == '__main__':
               end='',
               flush=True,
               file=sys.stderr)
-        print(str(abs(a - b)))
+        print(str(difference(a, b)))

@@ -1,5 +1,5 @@
 import unittest
-from problems import k_how_many_0s
+from kattis import k_how_many_0s
 
 ###############################################################################
 

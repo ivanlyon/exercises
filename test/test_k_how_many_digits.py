@@ -1,5 +1,5 @@
 import unittest
-from problems import k_how_many_digits
+from kattis import k_how_many_digits
 
 ###############################################################################
 

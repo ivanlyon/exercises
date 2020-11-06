@@ -1,5 +1,5 @@
 import unittest
-from kattis import k_vauvau
+from kattis import k_a_different_problem
 
 ###############################################################################
 
@@ -8,20 +8,13 @@ class SampleInput(unittest.TestCase):
 
     def test_sample_input_1(self):
         '''Run and assert problem statement sample 1 input and output.'''
-        dogs = [2, 2, 3, 3]
 
-        self.assertEqual(k_vauvau.how_many_attack(dogs, 1), 'both')
-        self.assertEqual(k_vauvau.how_many_attack(dogs, 3), 'one')
-        self.assertEqual(k_vauvau.how_many_attack(dogs, 4), 'none')
+        self.assertEqual(k_a_different_problem.difference(10, 12), 2)
 
     def test_sample_input_2(self):
         '''Run and assert problem statement sample 2 input and output.'''
 
-        dogs = [2, 3, 4, 5]
-
-        self.assertEqual(k_vauvau.how_many_attack(dogs, 4), 'one')
-        self.assertEqual(k_vauvau.how_many_attack(dogs, 9), 'none')
-        self.assertEqual(k_vauvau.how_many_attack(dogs, 5), 'none')
+        self.assertEqual(k_a_different_problem.difference(71293781758123, 72784), 71293781685339)
 
 ###############################################################################
 

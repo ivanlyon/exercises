@@ -1,5 +1,5 @@
 import unittest
-from problems import k_arctic_network
+from kattis import k_arctic_network
 
 ###############################################################################
 

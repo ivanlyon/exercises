@@ -1,5 +1,5 @@
 import unittest
-from problems import k_coldputer_science
+from kattis import k_coldputer_science
 
 ###############################################################################
 

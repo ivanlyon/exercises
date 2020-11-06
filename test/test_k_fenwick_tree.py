@@ -1,5 +1,5 @@
 import unittest
-from problems import k_fenwick_tree
+from kattis import k_fenwick_tree
 
 ###############################################################################
 
