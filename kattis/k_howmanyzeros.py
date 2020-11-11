@@ -1,6 +1,8 @@
 '''
 Compute difference in numbers from a fixed array of values representing the
 counts for valid chess pieces.
+
+Status: Accepted
 '''
 
 import math

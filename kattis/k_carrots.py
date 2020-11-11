@@ -1,5 +1,7 @@
 '''
 Reprinting one field from the input.
+
+Status: Accepted
 '''
 
 if __name__ == '__main__':

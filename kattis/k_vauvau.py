@@ -1,5 +1,7 @@
 '''
 Determine fate of 3 personnel approaching 2 enemies.
+
+Status: Accepted
 '''
 
 ###############################################################################

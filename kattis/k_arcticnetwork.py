@@ -1,5 +1,7 @@
 '''
 Kruskal's algorithm used to generate minimum spanning tree(s).
+
+Status: Accepted
 '''
 import math
 import sys

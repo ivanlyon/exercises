@@ -1,7 +1,7 @@
 '''
 Use Fenwick tree to manage operations and queries.
 
-TLE.
+Status: Time Limit Exceeded
 '''
 
 import sys

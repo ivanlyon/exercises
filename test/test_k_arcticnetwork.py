@@ -1,5 +1,5 @@
 import unittest
-from kattis import k_arctic_network
+from kattis import k_arcticnetwork
 
 ###############################################################################
 
@@ -8,9 +8,9 @@ class SampleInput(unittest.TestCase):
     def test_sample_input(self):
         '''Run and assert problem statement sample input and output.'''
         locations = [[0, 100], [0, 300], [0, 600], [150, 750]]
-        edges = k_arctic_network.strongly_connect(locations)
+        edges = k_arcticnetwork.strongly_connect(locations)
         nodes = len(locations)
-        mst = k_arctic_network.kruskal(nodes, edges, nodes - 2)
+        mst = k_arcticnetwork.kruskal(nodes, edges, nodes - 2)
 
         self.assertGreater(mst[-1][2], 212.12)
         self.assertLess(   mst[-1][2], 212.14)
@@ -44,9 +44,9 @@ class BoardInput(unittest.TestCase):
                      [2405, 7364],
                      [8292,  983],
                      [5241, 7012]]
-        edges = k_arctic_network.strongly_connect(locations)
+        edges = k_arcticnetwork.strongly_connect(locations)
         nodes = len(locations)
-        mst = k_arctic_network.kruskal(nodes, edges, nodes - 4)
+        mst = k_arcticnetwork.kruskal(nodes, edges, nodes - 4)
 
         self.assertGreater(mst[-1][2], 1862.60)
         self.assertLess(   mst[-1][2], 1862.62)

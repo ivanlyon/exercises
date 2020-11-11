@@ -1,19 +1,21 @@
 '''
-Count negative numbers in a list.
+Compute catalan number.
+
+Status: Accepted
 '''
+
+import math
 import sys
 
 ###############################################################################
 
-def count_negatives(numbers):
-    '''Count of numbers less than zero.'''
+def catalan(number):
+    '''Compute catalan number.'''
 
-    result = 0
-    for n in numbers:
-        if n < 0:
-            result += 1
+    fact_n = math.factorial(number)
+    fact_n_plus_1 = fact_n * (number + 1)
 
-    return result
+    return math.factorial(2 * number) // (fact_n * fact_n_plus_1)
 
 ###############################################################################
 
@@ -26,14 +28,12 @@ if __name__ == '__main__':
     '''
     print(STDERROR_HEADER, file=sys.stderr)
 
-    numbers = int(input())
-    number_list = [int(i) for i in input().split()]
-
-    print('Count of negative numbers in {} = '.format(str(number_list)),
-          end='',
-          flush=True,
-          file=sys.stderr)
-
-    print(str(count_negatives(number_list)))
+    for testcase in range(int(input())):
+        number = int(input())
+        print('Catalan({}) = '.format(number),
+              end='',
+              flush=True,
+              file=sys.stderr)
+        print(catalan(number))
 
 ###############################################################################

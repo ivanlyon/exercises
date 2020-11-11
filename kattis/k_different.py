@@ -1,12 +1,16 @@
-#!/usr/bin/python3
-
 '''
 Absolute value of difference between 2 integers.
+
+Status: Accepted
 '''
+
+###############################################################################
 
 def difference(a, b):
     '''Absolute difference between 2 integers'''
     return abs(a - b)
+
+###############################################################################
 
 if __name__ == '__main__':
     import sys
@@ -26,3 +30,5 @@ if __name__ == '__main__':
               flush=True,
               file=sys.stderr)
         print(str(difference(a, b)))
+
+###############################################################################

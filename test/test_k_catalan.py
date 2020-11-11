@@ -1,5 +1,5 @@
 import unittest
-from kattis import k_a_different_problem
+from kattis import k_catalan
 
 ###############################################################################
 
@@ -9,12 +9,12 @@ class SampleInput(unittest.TestCase):
     def test_sample_input_1(self):
         '''Run and assert problem statement sample 1 input and output.'''
 
-        self.assertEqual(k_a_different_problem.difference(10, 12), 2)
+        self.assertEqual(k_catalan.catalan(4), 14)
 
     def test_sample_input_2(self):
         '''Run and assert problem statement sample 2 input and output.'''
 
-        self.assertEqual(k_a_different_problem.difference(71293781758123, 72784), 71293781685339)
+        self.assertEqual(k_catalan.catalan(5), 42)
 
 ###############################################################################
 

@@ -1,5 +1,7 @@
 '''
 Compute number of digits in a factorial.
+
+Status: Accepted
 '''
 import sys
 import math
