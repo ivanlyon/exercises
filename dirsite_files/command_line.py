@@ -103,10 +103,14 @@ if CLI_INPUT:
     COMMANDS = [c for c in SCRIPT.split('&&')]
 
     for c in COMMANDS:
-        if '-m' in c and invoked_module != 'unittest':  # unittest trumps all
-            i = c.index('-m') + 1
-            if i < len(c):
-                invoked_module = c[i]  # window title assignment
+        parts = [p for p in c.split()]
+        invoked_module = ''
+        if '-m' in parts:
+            i = parts.index('-m') + 1
+            if i < len(parts):
+                invoked_module = parts[i]  # window title assignment
+        if invoked_module == '':
+            invoked_module = platform.node()
 
         proc = subprocess.Popen(c, stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE, shell=True)
