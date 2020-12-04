@@ -47,6 +47,7 @@ FILE_FILTERS = str(VIEWS_CFG.get(TEMPLATE_SELECTION, 'filter')).split()
 FILES_BANNED = str(VIEWS_CFG.get(TEMPLATE_SELECTION, 'banned')).split()
 IGNORE_FILES = str(VIEWS_CFG.get(TEMPLATE_SELECTION, 'ignore_files')).split()
 IGNORE_DIRS = str(VIEWS_CFG.get(TEMPLATE_SELECTION, 'ignore_dirs')).split()
+COMMAND_LINKS = False
 
 ###############################################################################
 # Remaining constants
@@ -90,14 +91,17 @@ def cssfile(filename):
 ###############################################################################
 
 
-def cgi_anchor(command):
+def cgi_anchor(command, label=None):
     '''Create HTML anchor/input for the command.'''
     if NAVIGATE_BY_POST:
         result = '<input type="button" value = "' + command + \
                  '" onclick="commandSend({\'cl\':\'' + command + '\'})">'
     else:
         encoded = '?' + parse.urlencode({'cl': command}, quote_via=parse.quote)
-        result = '<a href="' + CGI_SITE + encoded + '">' + command + '</a>'
+        if label:
+            result = '<a href="' + CGI_SITE + encoded + '">' + label + '</a>'
+        else:
+            result = '<a href="' + CGI_SITE + encoded + '">' + command + '</a>'
     return result
 
 ###############################################################################
@@ -190,17 +194,12 @@ def files_html(dir_name):
         if os.path.isfile(sample_path):
             FILES_IN_PLAY.remove(sample_path)
 
-        difftime = int(time.time() - os.stat(filepath).st_mtime)
-        result += '<td style="text-align:right;font-size:0.9em;\
-                       background-color:%s;white-space:nowrap;">' % \
-                       create_color(difftime)
-        result += '<b>%s</b>' % datetime.timedelta(seconds=difftime)
-        result += '</td>'
-
         for column in itertools.count(1):
             try:
-                key = 'file_dependency_' + str(column)
-                dependency = str(VIEWS_CFG.get(TEMPLATE_SELECTION, key))
+                dependency = VIEWS_CFG.get(TEMPLATE_SELECTION, \
+                                      'file_dependency_' + str(column))
+                label = VIEWS_CFG.get(TEMPLATE_SELECTION, \
+                                      'file_header_' + str(column))
             except NoOptionError:
                 break
             dependency = dependency.format(filename=filename,
@@ -223,7 +222,19 @@ def files_html(dir_name):
                                                    sample_path=sample_path,
                                                    filebase=filebase,
                                                    dirtest=TEST_DIRECTORY)
-                result += '<td>' + cgi_anchor(command_html) + '</td>'
+                if COMMAND_LINKS:
+                    result += '<td>' + cgi_anchor(command_html) + '</td>'
+                elif label:
+                    result += '<td>' + cgi_anchor(command_html, label) + '</td>'
+                else:
+                    result += '<td>' + cgi_anchor(command_html, filename) + '</td>'
+
+        difftime = int(time.time() - os.stat(filepath).st_mtime)
+        result += '<td style="text-align:right;font-size:0.9em;\
+                       background-color:%s;white-space:nowrap;">' % \
+                       create_color(difftime)
+        result += '<b>%s</b>' % datetime.timedelta(seconds=difftime)
+        result += '</td>'
         result += '</tr>'
 
     # Render table only when table rows have been created.
@@ -243,7 +254,7 @@ def table_top(dir_name):
     </tr>
     '''.format(directory=dir_name)
 
-    file_heads = '<th style="white-space:nowrap;">Last Modified</th>'
+    file_heads = ''
     for column in itertools.count(1):
         try:
             header = VIEWS_CFG.get(TEMPLATE_SELECTION, \
@@ -251,6 +262,7 @@ def table_top(dir_name):
         except NoOptionError:
             break
         file_heads += '<th>' + header + '</th>'
+    file_heads += '<th style="white-space:nowrap;">Last Modified</th>'
 
     return top_row + '<tr>' + file_heads + '</tr>'
 

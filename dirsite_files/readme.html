@@ -96,15 +96,18 @@ ignore_dirs = dirsite_files .git
 banned = __init__.py
 dir_header_1 = Run all unit tests
 dir_content_1 = python3 -m unittest
-file_header_1 = pydoc
-file_content_1 = python3 -m pydoc {dirname}.{filebase}
-file_dependency_1 = 
-file_header_2 = demonstration
-file_content_2 = python3 -m {dirname}.{filebase} < {sample_path}
-file_dependency_2 = {sample_path}
-file_header_3 = coverage
-file_content_3 = python3 -m coverage run {testpath} -v && python3 -m coverage report -m
-file_dependency_3 = {testpath}
+file_header_1 = 
+file_content_1 = cat {dirname}/{filebase}.py
+file_dependency_1 = {dirname}/{filebase}.py
+file_header_2 = pydoc
+file_content_2 = python3 -m pydoc {dirname}.{filebase}
+file_dependency_2 = 
+file_header_3 = demonstration
+file_content_3 = python3 -m {dirname}.{filebase} < {sample_path}
+file_dependency_3 = {sample_path}
+file_header_4 = coverage
+file_content_4 = python3 -m coverage run {testpath} -v && python3 -m coverage report -m
+file_dependency_4 = {testpath}
 
 </pre></div>
         Some configuration changes to consider:

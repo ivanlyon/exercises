@@ -79,7 +79,16 @@ def command_results(commands, outputs):
         output += '<td class="greentd">'
         output += '    <pre><table class="greentext">'
         for outline in res.splitlines(True):
-            output += '<tr><td style="padding:0px;">' + outline + '</td></tr>'
+            if outline == '\n':
+                spaced = '<br>'
+            else:
+                spaced = ''
+                for c in outline:
+                    if c == ' ':
+                        spaced += '&nbsp;'
+                    else:
+                        spaced += c
+            output += '<tr><td style="padding:0px;">' + spaced + '</td></tr>'
         output += '    </table></pre>'
         output += '</td>'
 

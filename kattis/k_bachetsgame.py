@@ -1,46 +1,38 @@
 '''
-Determine perfect play winner of Bachet's game given players stan & ollie.
+Determine perfect play winner of Bachet's game given players stan & ollie. This
+is a normal nim game where the winner is the last person to make a move.
 
-Status: Time Limit Exceeded (> 1.0s)
+Status: Accepted
 '''
 
 import sys
 
 ###############################################################################
 
-def playGame(stones, quants):
-    '''Determine winner of bachet's game (Stan draws 1st)'''
-    ollies = set([0])
-    quants = sorted(quants)
-    for s in range(1, stones + 1):
-        lastDraw = False
-        for q in quants:
-            if (s - q) in ollies:
-                lastDraw = True
+def nimNormal(stones, quants):
+    '''Normal nim game where stones removed must be a listed value.'''
+    UNKNOWN = 0
+    FIRST = 1 # ID of 1st player to draw
+    SECOND = 2 # ID of 2nd drawing player
+    LIMIT = stones - max(quants)
+    winner = [UNKNOWN for i in range(stones + 1)]
+
+    for s in range(LIMIT):
+        if winner[s] == UNKNOWN:
+            winner[s] = SECOND
+            for q in quants:
+                winner[s + q] = FIRST
+
+    for s in range(LIMIT, stones + 1):
+        if winner[s] == UNKNOWN:
+            winner[s] = SECOND
+            for q in quants:
+                if s + q <= stones:
+                    winner[s + q] = FIRST
+            if winner[stones] != UNKNOWN:
                 break
-        if not lastDraw:
-            ollies.add(s)
 
-    if stones in ollies:
-        return "Ollie wins"
-    else:
-        return "Stan wins"
-
-###############################################################################
-
-def playGameTLE(stones, quants):
-    '''Determine winner of bachet's game (Stan draws 1st)'''
-    ollies = set([0])
-    for s in range(1, stones + 1):
-        lastDraw = False
-        for q in quants:
-            if (s - q) in ollies:
-                lastDraw = True
-                break
-        if not lastDraw:
-            ollies.add(s)
-
-    if stones in ollies:
+    if winner[stones] == SECOND:
         return "Ollie wins"
     else:
         return "Stan wins"
@@ -50,6 +42,6 @@ def playGameTLE(stones, quants):
 if __name__ == '__main__':
     for testCase in sys.stdin:
         inputs = [int(i) for i in testCase.split()]
-        print(playGame(inputs[0], inputs[2:]))
+        print(nimNormal(inputs[0], inputs[2:]))
 
 ###############################################################################
