@@ -183,10 +183,18 @@ def files_html(dir_name):
     result = ''
     for filename in sorted(filtered):
         result += '<tr>'
+
         filebase = PurePath(filename).stem
         filepath = os.path.join(dir_name, filename)
         testpath = os.path.join(TEST_DIRECTORY, 'test_' + filename)
         sample_path = os.path.join(SAMPLE_DIRECTORY, filebase + '.txt')
+
+        difftime = int(time.time() - os.stat(filepath).st_mtime)
+        result += '<td style="text-align:right;font-size:0.9em;\
+                       background-color:%s;white-space:nowrap;">' % \
+                       create_color(difftime)
+        result += '<b>%s</b>' % datetime.timedelta(seconds=difftime)
+        result += '</td>'
 
         FILES_IN_PLAY.remove(filepath)
         if os.path.isfile(testpath):
@@ -229,12 +237,6 @@ def files_html(dir_name):
                 else:
                     result += '<td>' + cgi_anchor(command_html, filename) + '</td>'
 
-        difftime = int(time.time() - os.stat(filepath).st_mtime)
-        result += '<td style="text-align:right;font-size:0.9em;\
-                       background-color:%s;white-space:nowrap;">' % \
-                       create_color(difftime)
-        result += '<b>%s</b>' % datetime.timedelta(seconds=difftime)
-        result += '</td>'
         result += '</tr>'
 
     # Render table only when table rows have been created.
@@ -254,7 +256,7 @@ def table_top(dir_name):
     </tr>
     '''.format(directory=dir_name)
 
-    file_heads = ''
+    file_heads = '<th style="white-space:nowrap;">Last Modified</th>'
     for column in itertools.count(1):
         try:
             header = VIEWS_CFG.get(TEMPLATE_SELECTION, \
@@ -262,7 +264,6 @@ def table_top(dir_name):
         except NoOptionError:
             break
         file_heads += '<th>' + header + '</th>'
-    file_heads += '<th style="white-space:nowrap;">Last Modified</th>'
 
     return top_row + '<tr>' + file_heads + '</tr>'
 
