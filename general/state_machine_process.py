@@ -46,7 +46,7 @@ Output:
   +------------------------------------------------------------------+
 '''
 
-from exercises import state_machine
+from general import state_machine
 
 POSITIVE_ADJECTIVES = []
 NEGATIVE_ADJECTIVES = []

@@ -1,5 +1,5 @@
 import unittest
-from exercises import logging_screen
+from general import logging_screen
 
 ###############################################################################
 

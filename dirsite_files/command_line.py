@@ -119,7 +119,7 @@ if CLI_INPUT:
             if i < len(parts):
                 invoked_module = parts[i]  # window title assignment
         if invoked_module == '':
-            invoked_module = platform.node()
+            invoked_module = parts[0]
 
         proc = subprocess.Popen(c, stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE, shell=True)

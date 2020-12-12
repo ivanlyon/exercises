@@ -1,5 +1,5 @@
 import unittest
-from exercises import hexdec
+from general import hexdec
 
 ###############################################################################
 

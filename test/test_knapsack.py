@@ -1,5 +1,5 @@
 import unittest
-from exercises import knapsack
+from general import knapsack
 
 ###############################################################################
 

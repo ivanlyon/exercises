@@ -1,5 +1,5 @@
 import unittest
-from exercises import thread_fuzzing
+from general import thread_fuzzing
 
 ###############################################################################
 

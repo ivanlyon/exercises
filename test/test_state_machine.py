@@ -1,5 +1,5 @@
 import unittest
-from exercises import state_machine
+from general import state_machine
 
 ###############################################################################
 
