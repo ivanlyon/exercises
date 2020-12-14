@@ -15,7 +15,7 @@ class SampleInput(unittest.TestCase):
         points.append([0, 10])
 
         ch = k_convexhull.ConvexHull()
-        ch.setPoints(points)
+        ch.set_points(points)
         self.assertEqual(ch.get_hull_ints(), points)
 
     def test_sample_input_2(self):
@@ -34,7 +34,7 @@ class SampleInput(unittest.TestCase):
         expected_results.append([73, 17])
 
         ch = k_convexhull.ConvexHull()
-        ch.setPoints(points)
+        ch.set_points(points)
         self.assertEqual(ch.get_hull_ints(), expected_results)
 
     def test_sample_input_3(self):
@@ -48,7 +48,7 @@ class SampleInput(unittest.TestCase):
         expected_results.append([50, 50])
 
         ch = k_convexhull.ConvexHull()
-        ch.setPoints(points)
+        ch.set_points(points)
         self.assertEqual(ch.get_hull_ints(), expected_results)
 
 ###############################################################################

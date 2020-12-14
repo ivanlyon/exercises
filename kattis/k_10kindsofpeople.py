@@ -8,14 +8,14 @@ from sys import stdin
 
 ###############################################################################
 
-class GraphGrid(object):
+class GraphGrid():
     '''Graph object of gridded nodes operations. Original node IDs are only
     accessible by method.'''
-    def __init__(self, grid = None, onebase = False):
+    def __init__(self, grid=None, onebase=False):
         if grid:
             self._grid = []
-            for r in grid:
-                self._grid.append(list(r))
+            for row in grid:
+                self._grid.append(list(row))
         else:
             self._grid = None
 
@@ -31,18 +31,18 @@ class GraphGrid(object):
     def _flood_fill(self, row, column):
         '''Replace connected node IDs with a flood fill value'''
         connecting = self._grid[row][column]
-        DELTAS = ((0, 1), (1, 0), (-1, 0), (0, -1))
+        deltas = ((0, 1), (1, 0), (-1, 0), (0, -1))
         self._grid[row][column] = self._floods
         flooding = [(row, column)]
         while flooding:
-            r, c = flooding.pop()
-            for delta in DELTAS:
-                nr = r + delta[0]
-                nc = c + delta[1]
-                if (nr in range(self._rows)) and (nc in range(self._columns)):
-                    if self._grid[nr][nc] == connecting:
-                        self._grid[nr][nc] = self._floods
-                        flooding.append((nr, nc))
+            row, col = flooding.pop()
+            for delta in deltas:
+                nrow = row + delta[0]
+                ncol = col + delta[1]
+                if (nrow in range(self._rows)) and (ncol in range(self._columns)):
+                    if self._grid[nrow][ncol] == connecting:
+                        self._grid[nrow][ncol] = self._floods
+                        flooding.append((nrow, ncol))
 
         self._glyphs += connecting
         self._floods += 1
@@ -52,58 +52,57 @@ class GraphGrid(object):
         if self._onebase:
             r1, c1, r2, c2 = [i - 1 for i in (r1, c1, r2, c2)]
 
-        result = (type(self._grid[r1][c1]) == type(self._grid[r2][c2]))
-        if result:
-            if (type(self._grid[r1][c1]) != int):
+        matched = (type(self._grid[r1][c1]) == type(self._grid[r2][c2]))
+        if matched:
+            if not isinstance(self._grid[r1][c1], int):
                 self._flood_fill(r1, c1)
-            result = (self._grid[r1][c1] == self._grid[r2][c2])
+            matched = (self._grid[r1][c1] == self._grid[r2][c2])
 
-        return result
+        return matched
 
-    def glyph(self, r, c):
+    def glyph(self, row, col):
         '''Return the original text glyph of a flood-filled integer'''
         if self._onebase:
-            r, c = (r - 1, c - 1)
+            row, col = (row - 1, col - 1)
 
-        if type(self._grid[r][c]) == int:
-            return self._glyphs[self._grid[r][c]]
-        else:
-            return self._grid[r][c]
+        if isinstance(self._grid[row][col], int):
+            return self._glyphs[self._grid[row][col]]
+        return self._grid[row][col]
 
 ###############################################################################
 
 def solver(matrix, queries):
     '''Compute connection queries.'''
 
-    RESULTS = {}
-    RESULTS['0'] = 'binary'
-    RESULTS['1'] = 'decimal'
+    results = {}
+    results['0'] = 'binary'
+    results['1'] = 'decimal'
 
-    gg = GraphGrid(grid=matrix, onebase=True)
-    result = []
+    ggrid = GraphGrid(grid=matrix, onebase=True)
+    solutions = []
     for query in queries:
-        r1, c1, r2, c2 = query
-        if gg.connected(r1, c1, r2, c2):
-            result.append(RESULTS[gg.glyph(r1, c1)])
+        row1, col1, row2, col2 = query
+        if ggrid.connected(row1, col1, row2, col2):
+            solutions.append(results[ggrid.glyph(row1, col1)])
         else:
-            result.append('neither')
+            solutions.append('neither')
 
-    return result
+    return solutions
 
 ###############################################################################
 
 if __name__ == '__main__':
-    matrix = []
-    queries = []
+    MATRIX = []
+    QUERIES = []
 
-    rows, columns = [int(i) for i in stdin.readline().split()]
-    for r in range(rows):
-        matrix.append(stdin.readline().strip())
+    ROWS, COLUMNS = [int(i) for i in stdin.readline().split()]
+    for _ in range(ROWS):
+        MATRIX.append(stdin.readline().strip())
 
-    for query in range(int(stdin.readline())):
-        queries.append([int(i) for i in stdin.readline().split()])
+    for _ in range(int(stdin.readline())):
+        QUERIES.append([int(i) for i in stdin.readline().split()])
 
-    for result in solver(matrix, queries):
+    for result in solver(MATRIX, QUERIES):
         print(result)
 
 ###############################################################################

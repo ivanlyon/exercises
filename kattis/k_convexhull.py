@@ -6,14 +6,12 @@ provided for "Accepted" submission for Kattis/convexhull2.
 Status: Accepted
 '''
 
-import sys
-
 ###############################################################################
 
-class Point(object):
+class Point():
     '''Data and operations of 2D points'''
 
-    def __init__(self, x = 0, y = 0):
+    def __init__(self, x=0, y=0):
         self.x, self.y = x, y
 
     def __hash__(self):
@@ -22,8 +20,7 @@ class Point(object):
     def __lt__(self, other):
         if self.x != other.x:
             return self.x < other.x
-        else:
-            return self.y < other.y
+        return self.y < other.y
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
@@ -39,54 +36,55 @@ class Point(object):
 
 ###############################################################################
 
-class Line(object):
+class Line():
     '''Data and operations of 2D lines'''
 
-    def __init__(self, p, q):
-        self.p, self.q = p, q
-    
+    def __init__(self, pt_p, pt_q):
+        self.pt_p, self.pt_q = pt_p, pt_q
+
     def __repr__(self):
-        return '[' + str(p) + '->' + str(q) + ']'
+        return '[' + str(self.pt_p) + '->' + str(self.pt_q) + ']'
 
     def distance2(self):
         '''Return square of distance of line segment.'''
-        dx = self.p.x - self.q.x
-        dy = self.p.y - self.q.y
-        return dx * dx + dy * dy
+        xdelta = self.pt_p.x - self.pt_q.x
+        ydelta = self.pt_p.y - self.pt_q.y
+        return xdelta * xdelta + ydelta * ydelta
 
 ###############################################################################
 
-def signedTriangleArea(a, b, c):
+def signed_triangle_area(pt_a, pt_b, pt_c):
     '''Area of triangle is positive when a->b->c is ccw.'''
-    return 0.5 * (a.x * b.y - a.y * b.x + a.y * c.x - a.x * c.y + b.x * c.y - c.x * b.y);
+    return 0.5 * (pt_a.x * pt_b.y - pt_a.y * pt_b.x + pt_a.y * pt_c.x -
+                  pt_a.x * pt_c.y + pt_b.x * pt_c.y - pt_c.x * pt_b.y)
 
-def xvector(origin, a, b):
+def xvector(origin, pt_a, pt_b):
     '''Cross product of vectors OA and OB. Result > 0 for CCW.'''
-    return (a.x - origin.x) * (b.y - origin.y) - \
-           (a.y - origin.y) * (b.x - origin.x)
+    return (pt_a.x - origin.x) * (pt_b.y - origin.y) - \
+           (pt_a.y - origin.y) * (pt_b.x - origin.x)
 
 ###############################################################################
 
-class ConvexHull(object):
+class ConvexHull():
     '''Convex Hull setup and computation.'''
 
-    def __init__(self, collinear = False, polygon = False):
+    def __init__(self, collinear=False, polygon=False):
         self._points = []
         self._hull_points = []
         self._collinear = collinear # True for collinear points in result
         self._polygon = polygon     # True for 1st == last of result
 
-    def add1(self, x, y):
+    def add1(self, x_coord, y_coord):
         '''Add 1 point for consideration in future convex hull creation.'''
         self._hull_points = []
-        self._points.append(Point(x, y))
+        self._points.append(Point(x_coord, y_coord))
 
-    def setPoints(self, pairs):
+    def set_points(self, pairs):
         '''Assign all data points at once.'''
         self._hull_points = []
         self._points = []
-        for p in pairs:
-            self.add1(p[0], p[1])
+        for pair in pairs:
+            self.add1(pair[0], pair[1])
 
     def compute_hull(self):
         '''Need relative angle sort of points'''
@@ -99,25 +97,25 @@ class ConvexHull(object):
         upper = []
 
         if self._collinear:
-            for p in points:
-                while len(lower) >= 2 and xvector(lower[-2], lower[-1], p) < 0:
+            for point in points:
+                while len(lower) >= 2 and xvector(lower[-2], lower[-1], point) < 0:
                     lower.pop()
-                lower.append(p)
+                lower.append(point)
 
-            for p in reversed(points):
-                while len(upper) >= 2 and xvector(upper[-2], upper[-1], p) < 0:
+            for point in reversed(points):
+                while len(upper) >= 2 and xvector(upper[-2], upper[-1], point) < 0:
                     upper.pop()
-                upper.append(p)
+                upper.append(point)
         else:
-            for p in points:
-                while len(lower) >= 2 and xvector(lower[-2], lower[-1], p) <= 0:
+            for point in points:
+                while len(lower) >= 2 and xvector(lower[-2], lower[-1], point) <= 0:
                     lower.pop()
-                lower.append(p)
+                lower.append(point)
 
-            for p in reversed(points):
-                while len(upper) >= 2 and xvector(upper[-2], upper[-1], p) <= 0:
+            for point in reversed(points):
+                while len(upper) >= 2 and xvector(upper[-2], upper[-1], point) <= 0:
                     upper.pop()
-                upper.append(p)
+                upper.append(point)
 
         self._hull_points = lower[:-1] + upper[:-1]
         if self._polygon:
@@ -134,8 +132,8 @@ class ConvexHull(object):
         '''Return convex hull of int coords. Create convex hull on miss.'''
         self.get_hull_points()
         result = []
-        for p in self._hull_points:
-            result.append([p.x, p.y])
+        for point in self._hull_points:
+            result.append([point.x, point.y])
 
         return result
 
@@ -144,25 +142,25 @@ class ConvexHull(object):
         import matplotlib.pyplot as plt
 
         # Console result
-        hp = self.get_hull_points()
+        pt_hull = self.get_hull_points()
         print('Hull of ' + str(len(self._points)) +
-            ' random points produces convex hull polygon of ' +
-            str(len(hp) - 1) + ' points: ' + str(hp))
+              ' random points produces convex hull polygon of ' +
+              str(len(pt_hull) - 1) + ' points: ' + str(pt_hull))
 
         # Plot result
         plt.figure('Convex Hull Demo')
-        x = [p.x for p in self._points]
-        y = [p.y for p in self._points]
-        plt.scatter(x, y, marker='o')
+        x_coord = [pt_random.x for pt_random in self._points]
+        y_coord = [pt_random.y for pt_random in self._points]
+        plt.scatter(x_coord, y_coord, marker='o')
 
-        chx = [p.x for p in self._hull_points]
-        chy = [p.y for p in self._hull_points]
+        chx = [pt_chull.x for pt_chull in self._hull_points]
+        chy = [pt_chull.y for pt_chull in self._hull_points]
         plt.plot(chx, chy, marker='D', color='red', linestyle='dashed')
 
         plt.xlabel('X')
         plt.ylabel('Y')
         plt.suptitle('Convex Hull Demonstration')
-        plt.title(str(len(x)) + ' Random Points')
+        plt.title(str(len(x_coord)) + ' Random Points')
 
         plt.show()
 
@@ -172,27 +170,27 @@ def demo():
     '''Convex Hull demonstration with plotted outputs.'''
     import random
 
-    ch = ConvexHull(collinear=True,polygon=True)
-    lo = -100
-    hi = 100
+    chull = ConvexHull(collinear=True, polygon=True)
+    lo_val = -100
+    hi_val = 100
     for _ in range(random.randint(40, 60)):
-        ch.add1(random.randint(lo, hi), random.randint(lo, hi))
+        chull.add1(random.randint(lo_val, hi_val), random.randint(lo_val, hi_val))
 
-    ch.demonstration()
+    chull.demonstration()
 
 ###############################################################################
 
 def main2():
     '''Function to call when using input of Kattis convexhull2.'''
-    ch = ConvexHull(collinear=True)
+    chull = ConvexHull(collinear=True)
     for _ in range(int(input())):
-        x, y, c = [a for a in input().split()]
-        if c == 'Y':
-            ch.add1(int(x), int(y))
-    result = ch.get_hull_points()
+        x_coord, y_coord, on_chull = input().split()
+        if on_chull == 'Y':
+            chull.add1(int(x_coord), int(y_coord))
+    result = chull.get_hull_points()
     print(str(len(result)))
-    for r in result:
-        print(str(r.x), str(r.y))
+    for pt_r in result:
+        print(str(pt_r.x), str(pt_r.y))
 
 ###############################################################################
 
@@ -203,24 +201,25 @@ def main():
         if points == 0:
             break
 
-        ch = ConvexHull()
+        chull = ConvexHull()
         for _ in range(points):
-            x, y = [int(a) for a in input().split()]
-            ch.add1(x, y)
+#            x, y = [int(a) for a in input().split()]
+#            chull.add1(x, y)
+            chull.add1(*[int(a) for a in input().split()])
 
-        results = ch.get_hull_points()
+        results = chull.get_hull_points()
         print(str(len(results)))
-        for p in results:
-            print(str(p.x), str(p.y))
+        for pt_r in results:
+            print(str(pt_r.x), str(pt_r.y))
 
 ###############################################################################
 
 if __name__ == '__main__':
     import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--demo", help="convex hull demonstration", action="store_true")
-    args = parser.parse_args()
-    if args.demo:
+    PARSER = argparse.ArgumentParser()
+    PARSER.add_argument("--demo", help="convex hull demonstration", action="store_true")
+    ARGS = PARSER.parse_args()
+    if ARGS.demo:
         demo()
     else:
         main()

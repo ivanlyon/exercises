@@ -11,11 +11,11 @@ def how_many_attack(dogs, arrival_time):
 
     result = 0
     dog1time = arrival_time % (dogs[0] + dogs[1])
-    if dog1time > 0 and dog1time <= dogs[0]:
+    if dog1time in range(1, dogs[0] + 1):
         result += 1
 
     dog2time = arrival_time % (dogs[2] + dogs[3])
-    if dog2time > 0 and dog2time <= dogs[2]:
+    if dog2time in range(1, dogs[2] + 1):
         result += 1
 
     return ["none", "one", "both"][result]
@@ -23,8 +23,8 @@ def how_many_attack(dogs, arrival_time):
 ###############################################################################
 
 if __name__ == '__main__':
-    dogs = [int(i) for i in input().split()]
+    DOGS = [int(i) for i in input().split()]
     for person in [int(i) for i in input().split()]:
-        print(how_many_attack(dogs, person))
+        print(how_many_attack(DOGS, person))
 
 ###############################################################################

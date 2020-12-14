@@ -9,39 +9,38 @@ import sys
 
 ###############################################################################
 
-def nimNormal(stones, quants):
+def nim_normal(total_stones, quants):
     '''Normal nim game where stones removed must be a listed value.'''
-    UNKNOWN = 0
-    FIRST = 1 # ID of 1st player to draw
-    SECOND = 2 # ID of 2nd drawing player
-    LIMIT = stones - max(quants)
-    winner = [UNKNOWN for i in range(stones + 1)]
+    unknown = 0
+    first = 1 # ID of 1st player to draw
+    second = 2 # ID of 2nd drawing player
+    limit = total_stones - max(quants)
+    winner = [unknown for _ in range(total_stones + 1)]
 
-    for s in range(LIMIT):
-        if winner[s] == UNKNOWN:
-            winner[s] = SECOND
-            for q in quants:
-                winner[s + q] = FIRST
+    for stones in range(limit):
+        if winner[stones] == unknown:
+            winner[stones] = second
+            for amount in quants:
+                winner[stones + amount] = first
 
-    for s in range(LIMIT, stones + 1):
-        if winner[s] == UNKNOWN:
-            winner[s] = SECOND
-            for q in quants:
-                if s + q <= stones:
-                    winner[s + q] = FIRST
-            if winner[stones] != UNKNOWN:
+    for stones in range(limit, total_stones + 1):
+        if winner[stones] == unknown:
+            winner[stones] = second
+            for amount in quants:
+                if stones + amount <= total_stones:
+                    winner[stones + amount] = first
+            if winner[total_stones] != unknown:
                 break
 
-    if winner[stones] == SECOND:
+    if winner[total_stones] == second:
         return "Ollie wins"
-    else:
-        return "Stan wins"
+    return "Stan wins"
 
 ###############################################################################
 
 if __name__ == '__main__':
     for testCase in sys.stdin:
         inputs = [int(i) for i in testCase.split()]
-        print(nimNormal(inputs[0], inputs[2:]))
+        print(nim_normal(inputs[0], inputs[2:]))
 
 ###############################################################################

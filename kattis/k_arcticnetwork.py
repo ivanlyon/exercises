@@ -8,18 +8,18 @@ import sys
 
 ###############################################################################
 
-def strongly_connect(locations):
+def strongly_connect(positions):
     '''For input locations, use x, y coordinates to create edges from each
     point to all other points.  In this fashion, the set of points is modeled
     as a strongly connected graph weighted by distance.'''
     edges = []
-    for u in range(len(locations)):
-        x = locations[u][0]
-        y = locations[u][1]
-        for v in range(u):
-            dx = x - locations[v][0]
-            dy = y - locations[v][1]
-            edges.append((u, v, math.sqrt(dx * dx + dy * dy)))
+    for pt1 in range(len(positions)):
+        x_coord = positions[pt1][0]
+        y_coord = positions[pt1][1]
+        for pt2 in range(pt1):
+            dx = x_coord - positions[pt2][0]
+            dy = y_coord - positions[pt2][1]
+            edges.append((pt1, pt2, math.sqrt(dx * dx + dy * dy)))
 
     return edges
 
@@ -33,14 +33,14 @@ def kruskal(nodes, edges, number_to_link):
     trees = [set([_]) for _ in range(nodes)]
     linked = 0
 
-    for u, v, d in sorted(edges, key=lambda x: x[2]):
+    for pt1, pt2, distance in sorted(edges, key=lambda x: x[2]):
         for i in range(len(trees)):
-            if u in trees[i]:
+            if pt1 in trees[i]:
                 uparent = i
-            if v in trees[i]:
+            if pt2 in trees[i]:
                 vparent = i
         if uparent != vparent:
-            mst.append((u, v, d))
+            mst.append((pt1, pt2, distance))
             linked += 1
             if linked == number_to_link:
                 break
@@ -64,18 +64,18 @@ if __name__ == '__main__':
         satellites, outposts = [int(i) for i in input().split()]
 
         locations = []
-        for u in range(outposts):
+        for _ in range(outposts):
             locations.append([int(i) for i in input().split()])
 
-        mst = kruskal(outposts, strongly_connect(locations),
-                      outposts - satellites)
+        mstree = kruskal(outposts, strongly_connect(locations),
+                         outposts - satellites)
 
         print('Minimum distance to create {} trees: '.format(satellites),
               end='',
               flush=True,
               file=sys.stderr)
 
-        print('{:.02f}'.format(mst[-1][2]))
+        print('{:.02f}'.format(mstree[-1][2]))
 
 
 ###############################################################################
