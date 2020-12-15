@@ -193,7 +193,10 @@ def files_html(dir_name):
         result += '<td style="text-align:right;font-size:0.9em;\
                        background-color:%s;white-space:nowrap;">' % \
                        create_color(difftime)
-        result += '<b>%s</b>' % datetime.timedelta(seconds=difftime)
+        timestring = str(datetime.timedelta(seconds=difftime))
+        for zero in [' ' + str(i) for i in range(10)]:
+            timestring = timestring.replace(zero, ' 0' + zero[1:])
+        result += '<b>%s</b>' % timestring
         result += '</td>'
 
         FILES_IN_PLAY.remove(filepath)
@@ -274,8 +277,7 @@ def information_sections():
     '''Create HTML for optional portions of web page.'''
     html_results = []
 
-    if VIEWS_CFG.getboolean('appearance', 'show_unlinked_files') and \
-            len(FILES_IN_PLAY):
+    if VIEWS_CFG.getboolean('appearance', 'show_unlinked_files') and FILES_IN_PLAY:
         unlinked_rows = ''
         for unlinked in FILES_IN_PLAY:
             unlinked_rows += '<tr><td style="border:0px"><code>{}\

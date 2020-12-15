@@ -83,11 +83,11 @@ def command_results(commands, outputs):
                 spaced = '<br>'
             else:
                 spaced = ''
-                for c in outline:
-                    if c == ' ':
+                for glyph in outline:
+                    if glyph == ' ':
                         spaced += '&nbsp;'
                     else:
-                        spaced += c
+                        spaced += glyph
             output += '<tr><td style="padding:0px;">' + spaced + '</td></tr>'
         output += '    </table></pre>'
         output += '</td>'
@@ -109,10 +109,10 @@ if CLI_INPUT:
         platform.version())
 
     SCRIPT = parse.unquote(CLI_INPUT)
-    COMMANDS = [c for c in SCRIPT.split('&&')]
+    COMMANDS = SCRIPT.split('&&')
 
-    for c in COMMANDS:
-        parts = [p for p in c.split()]
+    for cmd in COMMANDS:
+        parts = cmd.split()
         invoked_module = ''
         if '-m' in parts:
             i = parts.index('-m') + 1
@@ -121,7 +121,7 @@ if CLI_INPUT:
         if invoked_module == '':
             invoked_module = parts[0]
 
-        proc = subprocess.Popen(c, stdout=subprocess.PIPE,
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE, shell=True)
         # TODO: test having a subprocess timed exit here...
         (out, err) = proc.communicate()
@@ -134,7 +134,7 @@ if CLI_INPUT:
             line = line.replace('\r', ' ')  # Is there another way?
             encoded.append(line)
         results = encoded
-        legends.append(c)
+        legends.append(cmd)
         # TODO: Stop looping after error is reported from command execution
 
     with open('dirsite_files/template_cl.html', 'rt') as f:
