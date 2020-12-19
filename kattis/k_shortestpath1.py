@@ -104,32 +104,41 @@ def demo_plot(tree, adds, adds2, costs, nodes):
     xinorder = [i[0] for i in tree]
     yinorder = [i[1] for i in tree]
 
-    xmin = min(xinorder)
-    ymax = max(yinorder)
+    fig, axes = plt.subplots(facecolor='#e5e5ff')
+    plt.suptitle('Dijkstra Demonstration (' + str(len(nodes)) + ' random nodes)')
+    axes.set_xlabel('X')
+    axes.set_ylabel('Y')
+    axes.set_xlim(-110, 110)
+    axes.set_ylim(-110, 110)
+    axes.set_facecolor('#eeffee')
+    axes.plot(xinorder, yinorder, marker='D', linewidth=0, color='green')
+    axes.plot(adds[0][0], adds[0][1], marker='D', color='red', zorder=4)
+    axes.plot(xinorder, yinorder, color='gray', linestyle='dashed')
+    legend = axes.text(.02, .945, "Initial String", bbox={'facecolor':'w', 'alpha':0.5, 'pad':5},
+                       transform=axes.transAxes, ha="left")
 
-    fig = plt.figure('Dijkstra Demo')
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.suptitle('Dijkstra Demonstration')
-    plt.title(str(len(nodes)) + ' Random Nodes (Red diamond is start)')
-
-    plt.scatter(xinorder, yinorder, marker='D', color='green')
-    plt.scatter(adds[0][0], adds[0][1], marker='D', color='red')
-
+    lut = {}
     for index, ponte in enumerate(nodes):
         plt.text(ponte[0]-8, ponte[1]-8, str(index + 1))
-    shortest, = plt.plot(xinorder, yinorder, color='brown', linestyle='dashed')
-    adding, = plt.plot([], [], color='blue')
-    legend = plt.text(xmin - 2, ymax + 2, 'Initial string', color='blue')
+        lut[ponte] = index + 1
 
     def animate(i):
         '''Draw one line segment per update'''
         pt1, pt2 = adds[i], adds2[i]
-        adding.set_data([pt1[0], pt2[0]], [pt1[1], pt2[1]])
-        legend.set_text('Step {:02d}: adding '.format(i) + str(adds[i]) + '->' + str(adds2[i]) + ' of total cost ' + str(costs[i]) + ' from start')
-        return adding, legend
+        if updating[0]:
+            updating[0].remove()
+        updating[0] = axes.arrow(pt1[0], pt1[1], pt2[0] - pt1[0], pt2[1] - pt1[1],
+                                 facecolor='blue', edgecolor='blue',
+                                 head_width=8, head_length=8, zorder=5,
+                                 length_includes_head=True)
+        axes.title.set_text('Cost from single source {:d} (Red) to node {:02d} = {:d}'.format(lut[adds[0]], lut[adds2[i]], costs[i]))
+        legend.set_text('Step {:02d}: updating '.format(i) + str(adds[i]) +
+                        '->' + str(adds2[i]) +
+                        ' with total cost ' + str(costs[i]))
+        return updating, legend
 
-    anim = animation.FuncAnimation(fig, animate, frames=len(adds), interval=700, blit=True)
+    updating = [None]
+    anim = animation.FuncAnimation(fig, animate, frames=len(adds), interval=1000, blit=False)
     plt.show()
 
 ###############################################################################
@@ -139,12 +148,21 @@ def demo():
     import random
     import math
 
-    nodes = set()
+    nodes = []
     lo_val = -100
     hi_val = 100
-    for _ in range(random.randint(11, 22)):
-        nodes.add((random.randint(lo_val, hi_val), random.randint(lo_val, hi_val)))
-    nodes = list(nodes)
+    random_points = random.randint(11, 18)
+    for _ in range(random_points):
+        while True:
+            maybex = random.randint(lo_val, hi_val)
+            maybey = random.randint(lo_val, hi_val)
+            too_close = False
+            for node in nodes:
+                if abs(maybex - node[0]) < 10 and abs(maybey - node[1]) < 10:
+                    too_close = True
+            if not too_close:
+                nodes.append((maybex, maybey))
+                break
     start = random.randint(0, len(nodes) - 1)
     graph = {}
     for node in nodes:
