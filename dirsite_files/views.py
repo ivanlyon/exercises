@@ -221,8 +221,17 @@ def files_html(dir_name):
                                            filebase=filebase,
                                            dirtest=TEST_DIRECTORY).strip()
 
+            flag_found = True
+            if label.startswith('--'):
+                with open(filepath) as depending:
+                    contents = depending.read()
+                if not label in contents:
+                    flag_found = False
+
             if dependency != '' and not os.path.isfile(dependency):
                 result += '<td class="missing"><b>Unmet Dependency:<b> ' + str(dependency) + '</td>'
+            elif flag_found == False:
+                result += '<td class="missing"><b>No Flag:<b></td>'
             else:
                 key = 'file_content_' + str(column)
                 command_html = str(VIEWS_CFG.get(TEMPLATE_SELECTION, key))

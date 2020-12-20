@@ -140,12 +140,14 @@ class ConvexHull():
     def demonstration(self):
         '''Plot points and convex hull for demonstration.'''
         import matplotlib.pyplot as plt
+        import pprint
 
         # Console result
         pt_hull = self.get_hull_points()
         print('Hull of ' + str(len(self._points)) +
               ' random points produces convex hull polygon of ' +
-              str(len(pt_hull) - 1) + ' points: ' + str(pt_hull))
+              str(len(pt_hull) - 1) + ' points: ')
+        pprint.pprint(str(pt_hull))
 
         # Plot result
         plt.figure('Convex Hull Demo')
@@ -203,8 +205,6 @@ def main():
 
         chull = ConvexHull()
         for _ in range(points):
-#            x, y = [int(a) for a in input().split()]
-#            chull.add1(x, y)
             chull.add1(*[int(a) for a in input().split()])
 
         results = chull.get_hull_points()

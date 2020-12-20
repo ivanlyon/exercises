@@ -147,6 +147,7 @@ def demo():
     '''Dijkstra demonstration with plotted paths.'''
     import random
     import math
+    import pprint
 
     nodes = []
     lo_val = -100
@@ -172,6 +173,8 @@ def demo():
             graph[(node, node2)] = 1 + int(math.sqrt(xdiff * xdiff + ydiff * ydiff))
             graph[(node, node2)] *= random.randint(1, 4)
     sssp = dijkstra(graph, nodes[start], nodes)
+    for arc in sssp:
+        pprint.pprint(arc)
 
     inorder = demo_tree(sssp, nodes[start])
     demo_plot(inorder, [i.node for i in sssp], [i.node2 for i in sssp], \
