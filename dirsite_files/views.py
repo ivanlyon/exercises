@@ -194,8 +194,8 @@ def files_html(dir_name):
                        background-color:%s;white-space:nowrap;">' % \
                        create_color(difftime)
         timestring = str(datetime.timedelta(seconds=difftime))
-        for zero in [' ' + str(i) for i in range(10)]:
-            timestring = timestring.replace(zero, ' 0' + zero[1:])
+        for zero in [', ' + str(i) + ':' for i in range(10)]:
+            timestring = timestring.replace(zero, ', 0' + zero[2] + ':')
         result += '<b>%s</b>' % timestring
         result += '</td>'
 
@@ -221,17 +221,19 @@ def files_html(dir_name):
                                            filebase=filebase,
                                            dirtest=TEST_DIRECTORY).strip()
 
+            accepted = False
             flag_found = True
-            if label.startswith('--'):
-                with open(filepath) as depending:
-                    contents = depending.read()
-                if not label in contents:
-                    flag_found = False
+            with open(filepath) as depending:
+                contents = depending.read()
+                if label.startswith('--'):
+                    if not label in contents:
+                        flag_found = False
+                accepted = ('Accepted' in contents) or (dir_name == 'general')
 
             if dependency != '' and not os.path.isfile(dependency):
                 result += '<td class="missing"><b>Unmet Dependency:<b> ' + str(dependency) + '</td>'
             elif flag_found == False:
-                result += '<td class="missing"><b>No Flag:<b></td>'
+                result += '<td class="missing"><b>None<b></td>'
             else:
                 key = 'file_content_' + str(column)
                 command_html = str(VIEWS_CFG.get(TEMPLATE_SELECTION, key))
@@ -242,12 +244,18 @@ def files_html(dir_name):
                                                    sample_path=sample_path,
                                                    filebase=filebase,
                                                    dirtest=TEST_DIRECTORY)
-                if COMMAND_LINKS:
-                    result += '<td>' + cgi_anchor(command_html) + '</td>'
-                elif label:
-                    result += '<td>' + cgi_anchor(command_html, label) + '</td>'
+
+                if accepted:
+                    td_with_class = '<td>'
                 else:
-                    result += '<td>' + cgi_anchor(command_html, filename) + '</td>'
+                    td_with_class = '<td class = "warning_span">'
+
+                if COMMAND_LINKS:
+                    result += td_with_class + cgi_anchor(command_html) + '</td>'
+                elif label:
+                    result += td_with_class + cgi_anchor(command_html, label) + '</td>'
+                else:
+                    result += td_with_class + cgi_anchor(command_html, filename) + '</td>'
 
         result += '</tr>'
 

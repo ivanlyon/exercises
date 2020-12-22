@@ -79,7 +79,7 @@ def demo():
 
     mstree = kruskal(outposts, strongly_connect(locations),
                      outposts - satellites)
-    print('Cost of connecting {:d} outposts to {:d} satellites = {:.02f}'.format(outposts, satellites, mstree[-1][2]))
+    print('Minimal max arc cost when connecting {:d} outposts to {:d} satellites = {:.02f}'.format(outposts, satellites, mstree[-1][2]))
     for index, branch in enumerate(mstree, start=1):
         print(str(index) + ': ' + str(branch))
 
@@ -94,6 +94,10 @@ def demo():
         x_coords = [locations[branch[0]][0], locations[branch[1]][0]]
         y_coords = [locations[branch[0]][1], locations[branch[1]][1]]
         axes.plot(x_coords, y_coords, color='green', marker='o')
+
+    for index, ponte in enumerate(locations):
+        axes.text(ponte[0]-40, ponte[1]-40, str(index))
+
     plt.show()
 
 ###############################################################################
