@@ -139,8 +139,7 @@ if CLI_INPUT:
 
     with open('dirsite_files/template_cl.html', 'rt') as f:
         TABULATED_HTML = f.read()
-
-    print('Content-type: text/html\n')  # CGI requirement
+    print('Content-type: text/html; charset=utf-8\n')  # CGI requirement
     print(TABULATED_HTML.format(
         cwd=CWD,
         meta_refresh=META_REFRESH,
