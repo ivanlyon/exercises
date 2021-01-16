@@ -94,15 +94,25 @@ def demo():
     capacity = random.randint(20, max_weight)
     for count in range(objects):
         random_weight = random.randint(1, max_weight)
-        random_value = random.randint(1, 100)
+        random_value = random.randint(1, 99)
         object_list.append(Item(random_value, random_weight, count))
 
     packing_list, packed, path = knapsack(object_list, capacity, is_demo=True)
+    packing_list.sort()
 
     best_value = sum([i.value for i in object_list if i.index in packing_list])
-    headline = 'Items "' + ' '.join([str(i) for i in packing_list]) + \
-               '" with maximal value ' + str(best_value)
+    best_weight = sum([i.weight for i in object_list if i.index in packing_list])
+    headline = 'Maximal result: items "' + ' '.join([str(i) for i in packing_list]) + \
+               '" with value ' + str(best_value) + ' at weight ' + str(best_weight)
+    print('Given {0:d} objects and knapsack of capacity {1:d} lbs...'.format(objects, capacity))
     print(headline)
+    print('-' * len(headline))
+    details = []
+    for i in object_list:
+        if i.index in packing_list:
+            details.append("Packed item {0:02d}:  value = {1:02d}  and  weight = {2:02d}".format(i.index, i.value, i.weight))
+    details.sort()
+    print('\n'.join(details))
 
     val_wt = [str(obj.value) + ',' + str(obj.weight) for obj in object_list]
     row_labels = []
