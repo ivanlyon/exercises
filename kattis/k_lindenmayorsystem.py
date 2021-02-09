@@ -7,7 +7,8 @@ Status: Accepted
 ###############################################################################
 
 def lindenmayor(rule, evolutions, start):
-    
+    '''Perform modifications to text as specified by rules'''
+
     text = start
     for _ in range(evolutions):
         temp = []
@@ -37,6 +38,8 @@ def main():
 ###############################################################################
 
 def demo():
+    '''Demonstrate operation of lindenmayor algorithm on random input'''
+
     import random
 
     rule = {}
@@ -61,7 +64,7 @@ def demo():
         if iteration == text:
             break
         text = iteration
-    
+
 ###############################################################################
 
 if __name__ == '__main__':
